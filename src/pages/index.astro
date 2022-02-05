@@ -1,17 +1,46 @@
 ---
+  import Head from '../components/Head.astro';
+  import Nav from '../components/Nav.astro';
+  import Footer from '../components/Footer.astro';
+  import Card from '../components/Card.astro';
+
+  let title = 'Boilerplate | Home';
+  let description = 'Basic Astro setup to get things going';
+  let permalink = 'https://changeme.com/';
+
+  const remoteData = await fetch('https://css-tricks.com/wp-json/wp/v2/posts?per_page=12&_embed').then(response => response.json());
 ---
 
-<html lang="en">
+<html lang="en-GB" dir="ltr">
 
 <head>
-	<meta charset="utf-8" />
-	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-	<meta name="viewport" content="width=device-width" />
-	<title>Welcome to Astro</title>
+  <Head title={title} description={description} permalink={permalink} />
 </head>
 
 <body>
-	<h1>Welcome to <a href="https://astro.build/">Astro</a></h1>
+	<Nav />
+  <header class="header">
+    <div class="content">
+      <h1>Landing</h1>
+      <p class="tag">Find, engage and hire the best talent for your business with Peoplebank</p>
+      <a href="#" class="btn">Get Demo</a>
+    </div>
+  </header>
+  <main class="main" id="content">
+    <div class="grid">
+    {remoteData.map((post) => {
+      return(
+        <Card
+          title={post.title.rendered}
+          link={post.link}
+          excerpt={post.excerpt.rendered}
+          featured_img={post.featured_media_src_url}
+          />
+      )
+    })}
+    </div>
+  </main>
+  <Footer />
 </body>
 
 </html>
